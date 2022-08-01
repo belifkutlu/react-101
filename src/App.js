@@ -1,40 +1,26 @@
 import React, { useState } from "react";
-import BottomSide from "./components/BottomSide";
-import TopSide from "./components/TopSide";
-
 import "./styles.css";
 
+const data = [
+  { name: "ali" },
+  { name: "ahmet" },
+  { name: "mehmet" },
+  { name: "veli" }
+];
+
 export default function App() {
-  const [isim, setIsim] = useState("");
-  const [girisYapildi, setGirisYapildi] = useState(false);
-  const [hataMesaji, setHataMesaji] = useState("");
-  const handleChange = (event) => setIsim(event.target.value);
-  const handleSubmit = (isim) => {
-    if (isim.length < 6) {
-      setHataMesaji("kullanici ismi en az 6 karakter olmalidir");
-    } else {
-      setHataMesaji("");
-      setGirisYapildi(true);
-    }
-  };
+  const [users, setUsers] = useState(data);
   return (
     <div className="App">
       <h1>React Dersleri</h1>
-      {girisYapildi || <p>cikis yapildi</p>}{" "}
-      {/*giris yapildi true ise ekranda bir sey gormeyecegiz cunku true bisey gostermiyor, false oldugunda <p>cikis yapildi</p> gorecegiz */}
-      {girisYapildi && <p>giris yapildi</p>}{" "}
-      {/* kisa devre/ burada gecis varsa kullanici gorebiliyor */}
-      {/*giris yapildi true ise <p>giris yapildi</p> giris yapildi false oldugunda ekranda bisey gormecegiz */}
-      {girisYapildi ? (
-        <TopSide isim={isim} onLogout={() => setGirisYapildi(false)} />
-      ) : (
-        <BottomSide
-          isim={isim}
-          hataMesaji={hataMesaji}
-          onChange={handleChange}
-          onSubmitClick={() => handleSubmit(isim)}
-        />
-      )}
+      <input placeholder="arama" />
+      {users.map((user, index) => {
+        return <User key={user.name || index} user={user} />;
+      })}
     </div>
   );
+}
+
+function User(props) {
+  return <p style={{ border: "1px solid #CCC" }}>{props.user.name}</p>;
 }
